@@ -1,0 +1,14 @@
+<div class="container mt-5 text-center">
+  <h1>ホーム</h1>
+  <p class="lead">ようこそ、田中 太郎さん</p> <div class="d-grid gap-3 col-md-6 mx-auto mt-5">
+    <%= link_to "給与確認", salary_path, class: "btn btn-primary btn-lg" %>
+    
+    <%= link_to "勤怠管理", attendance_path, class: "btn btn-success btn-lg" %>
+
+    <%= link_to "ユーザー管理 (管理者のみ)", users_path, class: "btn btn-secondary" %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "ログアウト", root_path, class: "text-muted" %>
+  </div>
+</div>
