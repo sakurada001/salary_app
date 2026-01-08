@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4">ユーザー情報の編集</h2>
+        
+        <%= form_with(model: @user, local: true) do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "氏名", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :hourly_wage, "時給 (円)", class: "form-label" %>
+            <%= f.number_field :hourly_wage, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :transportation_fee, "1日あたりの固定交通費 (円)", class: "form-label" %>
+            <%= f.number_field :transportation_fee, class: "form-control" %>
+          </div>
+
+          <div class="form-check mb-4">
+            <%= f.check_box :is_admin, class: "form-check-input" %>
+            <%= f.label :is_admin, "管理者権限を付与する", class: "form-check-label" %>
+          </div>
+
+          <div class="d-grid">
+            <%= f.submit "変更を保存する", class: "btn btn-success btn-lg" %>
+          </div>
+        <% end %>
+
+        <div class="text-center mt-3">
+          <%= link_to "キャンセル", users_path, class: "text-muted" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

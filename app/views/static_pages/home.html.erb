@@ -1,14 +1,22 @@
 <div class="container mt-5 text-center">
   <h1>ホーム</h1>
-  <p class="lead">ようこそ、田中 太郎さん</p> <div class="d-grid gap-3 col-md-6 mx-auto mt-5">
+  
+  <%# 1. 田中太郎さんではなく、ログインしているユーザーの名前を表示するように変更 %>
+  <p class="lead">ようこそ、<%= current_user.username %>さん</p> 
+
+  <div class="d-grid gap-3 col-md-6 mx-auto mt-5">
     <%= link_to "給与確認", salary_path, class: "btn btn-primary btn-lg" %>
-    
     <%= link_to "勤怠管理", attendance_path, class: "btn btn-success btn-lg" %>
 
-    <%= link_to "ユーザー管理 (管理者のみ)", users_path, class: "btn btn-secondary" %>
+    <%# 2. 管理者フラグ(is_admin)がtrueの人だけボタンが見えるようにする %>
+    <% if current_user.is_admin? %>
+      <%= link_to "ユーザー管理 (管理者のみ)", users_path, class: "btn btn-secondary" %>
+    <% end %>
   </div>
 
   <div class="mt-4">
-    <%= link_to "ログアウト", root_path, class: "text-muted" %>
-  </div>
+    <%# 3. root_pathではなく、コントローラーのdestroyを呼ぶように変更 %>
+    <%# data: { turbo_method: :delete } を入れるのがRails 7以降の重要ポイントです %>
+    <%# 解決策1の get "/logout" に合わせた書き方 %>
+    <%= link_to "ログアウト", logout_path, class: "text-muted" %>
 </div>
