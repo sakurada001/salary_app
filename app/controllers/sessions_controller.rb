@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+   # user_id カラムに対して、フォームから送られた username を使って検索する
     user = User.find_by(username: params[:session][:username])
     if user && user.authenticate(params[:session][:password])
       reset_session # セッション固定攻撃対策 [cite: 111]
