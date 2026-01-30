@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   # 管理者ページを表示するアクション
   def index
-    @users = User.all
+    # .all の後に .order(:id) を追加するだけ！
+    @users = User.all.order(:id)
   end
 
   # 新規登録画面を表示するアクション（ここで @user を作ります）
