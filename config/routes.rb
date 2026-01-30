@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  # ルートをログイン画面に設定
-  root   "sessions#new"
+  root "sessions#new"
 
   # ログイン・ログアウト
   get    "/login",   to: "sessions#new"
@@ -8,11 +7,11 @@ Rails.application.routes.draw do
   delete "/logout",  to: "sessions#destroy"
   get    "/logout",  to: "sessions#destroy"
 
-  # メイン機能（出勤・退勤の住所をJavaScriptの要望に合わせる）
+  # ✅ 出勤・退勤の住所（JavaScriptの要望に合わせる）
   post '/clock_in',  to: 'attendances#clock_in'
   post '/clock_out', to: 'attendances#clock_out'
 
-  # ページ遷移
+  # メイン機能
   get    "/home",    to: "static_pages#home"
   get    "/attendance", to: "static_pages#attendance", as: :attendance_form
 
