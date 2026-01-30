@@ -5,6 +5,13 @@ class UsersController < ApplicationController
     @users = User.all.order(:id)
   end
 
+  def destroy
+  @user = User.find(params[:id])
+  @user.destroy
+  # 削除したあと、また一覧画面に戻る
+  redirect_to users_path, notice: "ユーザーを削除しました", status: :see_other
+end
+
   # 新規登録画面を表示するアクション（ここで @user を作ります）
   def new
     @user = User.new

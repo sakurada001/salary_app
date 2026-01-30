@@ -21,6 +21,12 @@
             <td><%= user.id %></td>
             <td><%= user.name %></td>
             <td><%= user.username %></td>
+            <td>
+              <%# ここにボタンを追加 %>
+              <%= link_to "削除", user_path(user), 
+                          class: "btn btn-sm btn-outline-danger",
+                          data: { turbo_method: :delete, turbo_confirm: "本当にこのユーザーを削除しますか？" } %>
+            </td>
             <td><%= user.email %></td>
             <td>
               <% if user.is_admin? %>
