@@ -1,7 +1,8 @@
 <div class="container mt-5 text-center">
   <h1>ホーム</h1>
  <% if logged_in? %>
-  <p class="lead text-muted">ようこそ、<%= current_user.name %>さん</p>
+  <%# 修正後 %>
+ようこそ、<%= current_user.username %>さん
   <% else %>
     <p class="lead text-muted">ようこそ！</p>
   <% end %>
