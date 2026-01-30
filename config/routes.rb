@@ -2,26 +2,24 @@ Rails.application.routes.draw do
   # ルートをログイン画面に設定
   root   "sessions#new"
 
-  # ログイン・ログアウト（Remember me に必須のルート）
-  get    "/login",   to: "sessions#new"     # ログイン画面を明示的に定義
+  # ログイン・ログアウト
+  get    "/login",   to: "sessions#new"
   post   "/login",   to: "sessions#create"
-  delete "/logout",  to: "sessions#destroy" # 本来はDELETEが推奨ですが、GETでも動きます
-  get    "/logout",  to: "sessions#destroy" # GETでのログアウトも念のため残します
+  delete "/logout",  to: "sessions#destroy"
+  get    "/logout",  to: "sessions#destroy"
 
-  # メイン機能
+  # メイン機能（出勤・退勤の住所をJavaScriptの要望に合わせる）
+  post '/clock_in',  to: 'attendances#clock_in'
+  post '/clock_out', to: 'attendances#clock_out'
+
+  # ページ遷移
   get    "/home",    to: "static_pages#home"
   get    "/attendance", to: "static_pages#attendance", as: :attendance_form
 
-  # ユーザー管理
+  # ユーザー管理・勤怠履歴
+  resources :users
+  resources :attendances
+  
   get    "/signup",  to: "users#new"
   post   "/signup",  to: "users#create"
-  resources :users
-
-  # 勤怠管理（重複を整理して1箇所にまとめました）
-  resources :attendances do
-    collection do
-      post '/clock_in',  to: 'attendances#clock_in'
-      post '/clock_out', to: 'attendances#clock_out'
-    end
-  end
 end

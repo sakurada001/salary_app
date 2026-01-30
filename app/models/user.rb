@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+
+  # この一行を追加することで、同じ username の登録を完全にブロックします
+  validates :username, presence: true, uniqueness: true
   # アソシエーション
   has_many :attendances, dependent: :destroy
   
