@@ -12,11 +12,14 @@
   </div>
 
 <% @grouped_attendances.each do |user, attendances| %>
-  <div class="card shadow-sm mb-5 border-0">
-    <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 fw-bold"><i class="bi bi-person-circle me-2"></i><%= user.name %> さんの勤務記録</h5>
-      <span class="badge bg-white text-primary">合計 <%= attendances.count %> 件</span>
-    </div>
+  <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-bold">
+      <i class="bi bi-person-circle me-2"></i>
+      <%# 氏名(name)がなければユーザー名(username)を表示する %>
+      <%= user.name.presence || user.username %> さんの勤務記録
+    </h5>
+    <span class="badge bg-white text-primary">合計 <%= attendances.count %> 件</span>
+  </div>
     
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
@@ -25,6 +28,7 @@
             <th class="ps-4">勤務日</th>
             <th>出勤</th>
             <th>退勤</th>
+            <th>休憩</th>
             <th>実労働時間</th>
             <th class="text-end pe-4">交通費</th>
           </tr>
@@ -34,10 +38,10 @@
           <% user_total_cost = 0 %>
 
           <% attendances.each do |attendance| %>
-            <% # 祝日情報の取得（APIから取得した @holidays を使用） %>
             <% holiday_name = @holidays[attendance.work_date.to_s] %>
             
             <tr class="<%= 'table-danger table-opacity-10' if holiday_name %>">
+              <%# 1. 勤務日 %>
               <td class="ps-4">
                 <%= attendance.work_date.strftime("%Y/%m/%d") %>
                 <% if holiday_name %>
@@ -46,13 +50,26 @@
                   <small class="text-muted">(<%= %w(日 月 火 水 木 金 土)[attendance.work_date.wday] %>)</small>
                 <% end %>
               </td>
+
+              <%# 2. 出勤 %>
               <td class="text-muted"><%= attendance.start_time&.strftime("%H:%M") %></td>
+
+              <%# 3. 退勤 %>
               <td class="text-muted"><%= attendance.end_time&.strftime("%H:%M") %></td>
+
+              <%# 4. 休憩（★ここを追加！カラムのズレを直します） %>
+              <td class="text-secondary">
+                <%= attendance.break_minutes.presence || 0 %>分
+              </td>
+
+              <%# 5. 実労働時間 %>
               <td class="fw-bold text-primary"><%= attendance.working_duration %></td>
+
+              <%# 6. 交通費 %>
               <td class="text-end pe-4">¥<%= number_with_delimiter(attendance.extra_travel_cost || 0) %></td>
             </tr>
 
-            <% # 合計時間の集計（秒単位） %>
+            <%# 合計時間の集計ロジック（そのまま） %>
             <% if attendance.start_time && attendance.end_time %>
               <% duration = attendance.end_time - attendance.start_time %>
               <% duration += 24.hours if duration < 0 %>
