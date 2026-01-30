@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_07_130621) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_105132) do
+  create_table "attendances", force: :cascade do |t|
+    t.integer "break_minutes"
+    t.datetime "created_at", null: false
+    t.time "end_time"
+    t.integer "extra_travel_cost"
+    t.time "start_time"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.date "work_date"
+    t.index ["user_id"], name: "index_attendances_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -23,4 +35,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_07_130621) do
     t.datetime "updated_at", null: false
     t.string "username"
   end
+
+  add_foreign_key "attendances", "users"
 end

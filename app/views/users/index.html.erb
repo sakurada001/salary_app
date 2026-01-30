@@ -1,35 +1,41 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><%= "ユーザー管理 (管理者専用)" %></h2>
+    <h2>スタッフ一覧 (管理者専用)</h2>
     <%= link_to "新規登録", signup_path, class: "btn btn-primary" %>
   </div>
 
   <div class="card shadow-sm">
-    <table class="table table-hover align-middle mb-0">
+    <table class="table table-hover mb-0">
       <thead class="table-light">
         <tr>
-          <th>ユーザーID</th> <%# username [cite: 16] %>
-          <th>時給</th> <%# hourly_wage [cite: 19] %>
-          <th>固定交通費</th> <%# transportation_fee [cite: 20] %>
-          <th>権限</th> <%# is_admin [cite: 18] %>
+          <th>ID</th>
+          <th>氏名</th>
+          <th>ユーザー名</th>
+          <th>メールアドレス</th>
+          <th>権限</th>
         </tr>
       </thead>
       <tbody>
         <% @users.each do |user| %>
           <tr>
-            <td><strong><%= user.username %></strong></td>
-            <td><%= number_with_delimiter(user.hourly_wage) %>円</td>
-            <td><%= number_with_delimiter(user.transportation_fee) %>円</td>
+            <td><%= user.id %></td>
+            <td><%= user.name %></td>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
             <td>
               <% if user.is_admin? %>
                 <span class="badge bg-danger">管理者</span>
               <% else %>
-                <span class="badge bg-secondary">従業員</span>
+                <span class="badge bg-secondary">一般</span>
               <% end %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
+  </div>
+
+  <div class="mt-4 text-center">
+    <%= link_to "ホームに戻る", home_path %>
   </div>
 </div>

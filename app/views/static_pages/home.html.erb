@@ -1,22 +1,42 @@
 <div class="container mt-5 text-center">
   <h1>ホーム</h1>
-  
-  <%# 1. 田中太郎さんではなく、ログインしているユーザーの名前を表示するように変更 %>
-  <p class="lead">ようこそ、<%= current_user.username %>さん</p> 
+ <% if logged_in? %>
+  <p class="lead text-muted">ようこそ、<%= current_user.name %>さん</p>
+  <% else %>
+    <p class="lead text-muted">ようこそ！</p>
+  <% end %>
 
-  <div class="d-grid gap-3 col-md-6 mx-auto mt-5">
-    <%= link_to "給与確認", salary_path, class: "btn btn-primary btn-lg" %>
-    <%= link_to "勤怠管理", attendance_path, class: "btn btn-success btn-lg" %>
 
-    <%# 2. 管理者フラグ(is_admin)がtrueの人だけボタンが見えるようにする %>
-    <% if current_user.is_admin? %>
-      <%= link_to "ユーザー管理 (管理者のみ)", users_path, class: "btn btn-secondary" %>
+  <div class="card shadow-sm p-4 text-center mt-4 border-0 bg-light rounded-3" style="max-width: 500px; margin: 0 auto;">
+    <h3 class="text-secondary h5 mb-3">現在のステータス</h3>
+    
+    <% # 時間の強調を抑え、標準的なサイズに変更 %>
+    <div id="working-timer" class="h2 fw-bold text-dark mb-4">00:00:00</div>
+
+    <div class="d-grid gap-2 col-10 mx-auto">
+      <button id="attendance-toggle-btn" 
+              class="btn btn-lg btn-success py-3" 
+              data-status="stopped">
+        <i class="bi bi-play-fill"></i> 出勤する
+      </button>
+
+      <% # 休憩ボタンもシンプルなスタイルに %>
+      <button id="break-toggle-btn" class="btn btn-warning mt-1 d-none text-white">
+        <i class="bi bi-pause-fill"></i> 休憩入
+      </button>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2 col-md-5 mx-auto mt-5">
+    <%= link_to "勤怠の手動登録", attendance_form_path, class: "btn btn-outline-success btn-lg" %>
+    <%= link_to "勤怠履歴の確認", attendances_path, class: "btn btn-outline-primary btn-lg" %>
+
+    <% if logged_in? && current_user.is_admin? %>
+      <%= link_to "スタッフ一覧(管理者用)", users_path, class: "btn btn-outline-secondary btn-lg" %>
     <% end %>
   </div>
 
   <div class="mt-4">
-    <%# 3. root_pathではなく、コントローラーのdestroyを呼ぶように変更 %>
-    <%# data: { turbo_method: :delete } を入れるのがRails 7以降の重要ポイントです %>
-    <%# 解決策1の get "/logout" に合わせた書き方 %>
-    <%= link_to "ログアウト", logout_path, class: "text-muted" %>
+    <%= link_to "ログアウト", logout_path, class: "text-muted small text-decoration-none" %>
+  </div>
 </div>

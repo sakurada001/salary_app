@@ -20,12 +20,7 @@
               <%= f.password_field :password, class: "form-control", placeholder: "パスワードを入力" %>
             </div>
 
-            <%# 第12回の核心：永続ログイン用チェックボックス [cite: 117, 121-124] %>
-            <div class="form-check mb-4">
-              <%= f.check_box :remember_me, class: "form-check-input" %>
-              <%= f.label :remember_me, "Remember me on this computer", class: "form-check-label text-muted" %>
-            </div>
-
+            
             <%# ログインボタン %>
             <div class="d-grid">
               <%= f.submit "ログイン", class: "btn btn-primary btn-lg" %>

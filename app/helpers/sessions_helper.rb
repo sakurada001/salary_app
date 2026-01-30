@@ -1,23 +1,14 @@
+# app/helpers/sessions_helper.rb
 module SessionsHelper
+  # 渡されたユーザーでログインする
   def log_in(user)
     session[:user_id] = user.id
   end
 
-  def remember(user)
-    user.remember
-    cookies.permanent.encrypted[:user_id] = user.id # [cite: 96]
-    cookies.permanent[:remember_token] = user.remember_token # [cite: 97]
-  end
-
+  # 現在ログイン中のユーザーを返す（一時セッションのみ確認）
   def current_user
-    if (user_id = session[:user_id])
-      @current_user ||= User.find_by(id: user_id)
-    elsif (user_id = cookies.encrypted[:user_id]) # ここが Remember me の核！
-      user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
-        log_in user
-        @current_user = user
-      end
+    if session[:user_id]
+      @current_user ||= User.find_by(id: session[:user_id])
     end
   end
 
@@ -25,14 +16,8 @@ module SessionsHelper
     !current_user.nil?
   end
 
-  def forget(user)
-    user.forget
-    cookies.delete(:user_id)
-    cookies.delete(:remember_token)
-  end
-
+  # ログアウトする
   def log_out
-    forget(current_user)
     session.delete(:user_id)
     @current_user = nil
   end

@@ -3,39 +3,42 @@
 
   <div class="card shadow-sm">
     <div class="card-body">
-      <form>
+      <%# Railsの保存機能と繋げるための設定 %>
+      <%= form_with(model: @attendance, local: true) do |f| %>
+        
         <div class="mb-3">
-          <label class="form-label">勤務日</label>
-          <input type="date" class="form-control" value="<%= Date.today %>">
+          <%= f.label :work_date, "勤務日", class: "form-label" %>
+          <%= f.date_field :work_date, class: "form-control", value: Date.today %>
         </div>
 
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label class="form-label">出勤時間</label>
-            <input type="time" class="form-control">
+            <%= f.label :start_time, "出勤時間", class: "form-label" %>
+            <%= f.time_field :start_time, class: "form-control" %>
           </div>
 
           <div class="col-md-6 mb-3">
-            <label class="form-label">退勤時間</label>
-            <input type="time" class="form-control">
+            <%= f.label :end_time, "退勤時間", class: "form-label" %>
+            <%= f.time_field :end_time, class: "form-control" %>
           </div>
         </div>
 
         <div class="mb-3">
-          <label class="form-label">休憩時間 (分)</label>
-          <input type="number" class="form-control" placeholder="60">
+          <%= f.label :break_minutes, "休憩時間 (分)", class: "form-label" %>
+          <%= f.number_field :break_minutes, class: "form-control", placeholder: "60" %>
         </div>
 
         <div class="mb-3">
-          <label class="form-label">追加交通費 (円)</label>
-          <input type="number" class="form-control" placeholder="0">
+          <%= f.label :extra_travel_cost, "追加交通費 (円)", class: "form-label" %>
+          <%= f.number_field :extra_travel_cost, class: "form-control", placeholder: "0" %>
           <div class="form-text">※定期券区間外の移動があった場合のみ入力</div>
         </div>
 
         <div class="d-grid gap-2 mt-4">
-          <button type="button" class="btn btn-success btn-lg">申請する (ダミー)</button>
+          <%# type="button" ではなく f.submit にすることで、データを送信します %>
+          <%= f.submit "勤務を記録する", class: "btn btn-success btn-lg" %>
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 

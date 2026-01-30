@@ -1,0 +1,12 @@
+/* オレンジ色のボタン専用の設定 */
+.btn-outline-orange {
+  color: #fd7e14;
+  border-color: #fd7e14;
+}
+
+.btn-outline-orange:hover {
+  color: #fff !important;      /* ホバー時に文字を白で固定 */
+  background-color: #fd7e14;
+  border-color: #fd7e14;
+}
+
