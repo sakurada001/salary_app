@@ -16,3 +16,15 @@ User.create!(
   transportation_fee: 500,
   is_admin: true
 )
+
+# db/seeds.rb
+
+# 管理ユーザーを1人作成する
+User.find_or_create_by!(username: "admin") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  # もし管理者フラグなどのカラムがあれば、ここで設定
+  # user.admin = true 
+end
+
+puts "Seed: Admin user has been created/verified."
