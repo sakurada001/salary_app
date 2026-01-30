@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   # 勤怠管理（重複を整理して1箇所にまとめました）
   resources :attendances do
     collection do
-      post 'clock_in'
-      post 'clock_out'
+      post '/clock_in',  to: 'attendances#clock_in'
+      post '/clock_out', to: 'attendances#clock_out'
     end
   end
 end
